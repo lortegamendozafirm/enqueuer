@@ -1,0 +1,13 @@
+__pycache__/
+.env
+sa_key.json
+*.pyc
+.idea/
+.vscode/
+.venv
+venv/
+sa_key.json
+credentials/*.json
+.envsa_key.json
+venv
+enqueuer-api.json
