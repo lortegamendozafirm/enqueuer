@@ -7,12 +7,14 @@ from typing import Any, Dict, Optional, Literal
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from google.cloud import tasks_v2
+from dotenv import load_dotenv
+
+load_dotenv()
 
 PROJECT_ID = os.environ["PROJECT_ID"]
 TASKS_REGION = os.environ.get("TASKS_REGION", "us-central1")
-CALLER_SA = os.environ["CALLER_SA"]  # tasks-dispatcher@....
+CALLER_SA = os.environ["CALLER_SA"]
 
-# Config por servicio (1 cola + 1 endpoint)
 SERVICES = {
     "brain": {
         "queue": os.environ.get("QUEUE_BRAIN", "queue-brain"),
@@ -32,15 +34,20 @@ SERVICES = {
         "aud":   os.environ.get("AUD_TRANS", "https://transcripciones-pahip4iobq-uc.a.run.app"),
         "deadline_s": int(os.environ.get("DEADLINE_TRANS_S", "880")),
     },
+    "regresos": {
+        "queue": os.environ.get("QUEUE_REGRESOS", "queue-regresos"),
+        "url":   os.environ.get("URL_REGRESOS", "https://regresos-223080314602.us-central1.run.app/_tasks/process-pdf-back-questions-run"),
+        "aud":   os.environ.get("AUD_REGRESOS", "https://regresos-223080314602.us-central1.run.app"),
+        "deadline_s": int(os.environ.get("DEADLINE_REGRESOS_S", "1800")),
+    },
 }
 
 app = FastAPI(title="Ortega Enqueuer API")
 
 class EnqueueRequest(BaseModel):
-    service: Literal["brain", "testimonios", "transcripciones"]
+    service: Literal["brain", "testimonios", "transcripciones", "regresos"]
     payload: Dict[str, Any] = Field(default_factory=dict)
     idempotency_key: Optional[str] = None
-    # Opcionales:
     delay_s: Optional[int] = Field(default=None, ge=0, description="Programar a futuro")
     deadline_s: Optional[int] = Field(default=None, ge=1, le=3600, description="dispatchDeadline override")
 

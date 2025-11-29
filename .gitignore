@@ -11,3 +11,4 @@ credentials/*.json
 .envsa_key.json
 venv
 enqueuer-api.json
+logs.txt
