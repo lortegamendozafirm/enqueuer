@@ -1,3 +1,4 @@
+# app.py
 import os
 import json
 import uuid
@@ -26,13 +27,13 @@ SERVICES = {
         "queue": os.environ.get("QUEUE_TESTI", "queue-testimonios"),
         "url":   os.environ.get("URL_TESTI", "https://testimonios-pahip4iobq-uc.a.run.app/generate-testimony"),
         "aud":   os.environ.get("AUD_TESTI", "https://testimonios-pahip4iobq-uc.a.run.app"),
-        "deadline_s": int(os.environ.get("DEADLINE_TESTI_S", "390")),
+        "deadline_s": int(os.environ.get("DEADLINE_TESTI_S", "900")),
     },
     "transcripciones": {
         "queue": os.environ.get("QUEUE_TRANS", "queue-transcripciones"),
         "url":   os.environ.get("URL_TRANS", "https://transcripciones-pahip4iobq-uc.a.run.app/api/transcribe"),
         "aud":   os.environ.get("AUD_TRANS", "https://transcripciones-pahip4iobq-uc.a.run.app"),
-        "deadline_s": int(os.environ.get("DEADLINE_TRANS_S", "880")),
+        "deadline_s": int(os.environ.get("DEADLINE_TRANS_S", "1800")),
     },
     "regresos": {
         "queue": os.environ.get("QUEUE_REGRESOS", "queue-regresos"),
